@@ -1,12 +1,11 @@
 // utils/qloo.ts
+const API_KEY = "1Ql3AjhegWKNJK_6Ruh5d9dl4-z5bnoP1s33foFmqHE";
 
-const API_KEY = "1Ql3AjhegWKNJK_6Ruh5d9dl4-z5bnoP1s33foFmqHE"; // ⬅️ Replace this with your actual API key
-
-export async function searchQloo(query: string, type?: string, limit: number = 3) {
+export async function searchQloo(query: string, type: string = "urn:entity:person", limit: number = 5) {
   const url = new URL("https://hackathon.api.qloo.com/search");
 
   url.searchParams.append("q", query);
-  if (type) url.searchParams.append("filter.type", type);
+  url.searchParams.append("filter.type", type);
   url.searchParams.append("limit", limit.toString());
 
   const res = await fetch(url.toString(), {
@@ -16,9 +15,16 @@ export async function searchQloo(query: string, type?: string, limit: number = 3
   });
 
   if (!res.ok) {
+    console.error("Failed URL:", url.toString());
     throw new Error(`Search failed: ${res.status}`);
   }
 
-  const json = await res.json();
-  return json;
+  const data = await res.json();
+
+  const results = (data?.results || []).map((item: any) => ({
+    ...item,
+    entity_id: item.entity_id || item.id,
+  }));
+
+  return { results };
 }
