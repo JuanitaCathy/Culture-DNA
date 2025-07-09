@@ -1,4 +1,3 @@
-// utils/qloo.ts
 const API_KEY = "1Ql3AjhegWKNJK_6Ruh5d9dl4-z5bnoP1s33foFmqHE";
 
 export async function searchQloo(query: string, type: string = "urn:entity:person", limit: number = 5) {
