@@ -81,6 +81,22 @@ body {
   100% { transform: translateY(100vh); opacity: 0; }
 }
 
+/* Matrix grid background */
+.matrix-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,255,128,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,128,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: matrix-scroll 20s linear infinite;
+}
+
+@keyframes matrix-scroll {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
 .matrix-char {
   position: absolute;
   color: #00ff80;
@@ -118,9 +134,31 @@ body {
   left: 100%;
 }
 
+/* Cyber panel effects */
+.cyber-panel {
+  position: relative;
+}
+
+.cyber-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00ff80, transparent);
+  animation: scan-line 2s ease-in-out infinite;
+}
+
+@keyframes scan-line {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
 /* Input focus effects */
-input:focus {
+.cyber-input:focus {
   box-shadow: 0 0 0 2px currentColor, 0 0 10px currentColor;
+  background: rgba(0, 255, 128, 0.05);
 }
 
 /* Card hover effects */
@@ -131,4 +169,21 @@ input:focus {
 .card-hover:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 255, 128, 0.2);
+}
+
+/* Custom scrollbar for carousels */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-cyan-500::-webkit-scrollbar-thumb {
+  background-color: #06b6d4;
+}
+
+.scrollbar-thumb-pink-500::-webkit-scrollbar-thumb {
+  background-color: #ec4899;
+}
+
+.scrollbar-track-gray-800::-webkit-scrollbar-track {
+  background-color: #1f2937;
 }

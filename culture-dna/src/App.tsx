@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { searchQloo } from "./utils/qloo";
 import { getInsightsForDNA } from "./utils/getInsightsForDNA";
+import { getTrendingContent } from "./utils/getTrendingContent";
+import { getPersonalityInsights } from "./utils/getPersonalityInsights";
 import DNAStrandVisualizer from "./components/DNAStrandVisualizer";
-import ContentCarousel from "./components/ContentCarousel";
+import ImageCarousel from "./components/ImageCarousel";
+import MusicPreviewCarousel from "./components/MusicPreviewCarousel";
+import PersonalityProfile from "./components/PersonalityProfile";
+import TrendingSection from "./components/TrendingSection";
 import DNAExporter from "./components/DNAExporter";
 import { motion } from "framer-motion";
 
@@ -14,6 +19,8 @@ export default function App() {
   const [userDNA, setUserDNA] = useState<string[]>([]);
   const [results, setResults] = useState<any[]>([]);
   const [allInsights, setAllInsights] = useState<{[key: string]: any[]}>({});
+  const [personalityProfile, setPersonalityProfile] = useState<any>(null);
+  const [trendingContent, setTrendingContent] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [selectedNode, setSelectedNode] = useState<any>(null);
 
@@ -43,13 +50,13 @@ export default function App() {
       setUserDNA(entityIds);
       setResults(foundResults);
       
-      // Fetch insights for all types
+      // Fetch insights for all types with images
       const insightTypes = ["urn:entity:person", "urn:entity:movie", "urn:entity:music", "urn:entity:brand", "urn:entity:place"];
       const insights: {[key: string]: any[]} = {};
       
       for (const type of insightTypes) {
         try {
-          const typeInsights = await getInsightsForDNA(entityIds, type, 8);
+          const typeInsights = await getInsightsForDNA(entityIds, type, 10);
           insights[type] = typeInsights;
         } catch (err) {
           console.warn(`Failed to fetch insights for ${type}:`, err);
@@ -58,6 +65,23 @@ export default function App() {
       }
       
       setAllInsights(insights);
+
+      // Get personality insights
+      try {
+        const personality = await getPersonalityInsights(entityIds);
+        setPersonalityProfile(personality);
+      } catch (err) {
+        console.warn("Failed to fetch personality insights:", err);
+      }
+
+      // Get trending content
+      try {
+        const trending = await getTrendingContent();
+        setTrendingContent(trending);
+      } catch (err) {
+        console.warn("Failed to fetch trending content:", err);
+      }
+
     } catch (err) {
       console.error("❌ DNA generation failed:", err);
       alert("DNA generation failed. Check console.");
@@ -91,17 +115,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono overflow-x-hidden">
-      {/* Animated Background Grid */}
+      {/* Matrix Background */}
       <div className="fixed inset-0 opacity-20">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-cyan-900/20"></div>
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,255,128,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,255,128,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px'
-        }}></div>
+        <div className="matrix-grid"></div>
       </div>
+
+      {/* Scan Line Effect */}
+      <div className="scan-line"></div>
 
       <div className="relative z-10 p-8">
         {/* Header */}
@@ -110,10 +131,10 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
-            🧬 CULTURAL DNA
+          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent glitch">
+            🧬 CULTURAL DNA MATRIX
           </h1>
-          <div className="text-xl text-cyan-400 mb-2">NEURAL TASTE ANALYZER v2.0</div>
+          <div className="text-xl text-cyan-400 mb-2 neon-glow">NEURAL TASTE ANALYZER v3.0</div>
           <div className="text-sm text-gray-500">Scanning cultural preferences... Generating personality matrix...</div>
         </motion.div>
 
@@ -123,49 +144,49 @@ export default function App() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-4xl mx-auto mb-12"
         >
-          <div className="bg-gray-900/80 border border-cyan-500/30 rounded-lg p-8 backdrop-blur-sm">
+          <div className="bg-gray-900/80 border border-cyan-500/30 rounded-lg p-8 backdrop-blur-sm cyber-panel">
             <div className="text-center mb-6">
-              <div className="text-cyan-400 text-lg mb-2">INITIALIZE CULTURAL SCAN</div>
+              <div className="text-cyan-400 text-lg mb-2 neon-glow">INITIALIZE CULTURAL SCAN</div>
               <div className="text-gray-400 text-sm">Enter your preferences to generate your unique cultural DNA sequence</div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="space-y-2">
-                <label className="text-pink-400 text-sm">🎭 FAVORITE ACTOR</label>
+                <label className="text-pink-400 text-sm neon-glow">🎭 FAVORITE ACTOR</label>
                 <input
                   value={favActor}
                   onChange={(e) => setFavActor(e.target.value)}
-                  className="w-full bg-black border border-pink-500/50 rounded px-4 py-3 text-white focus:border-pink-500 focus:outline-none transition-colors"
+                  className="w-full bg-black border border-pink-500/50 rounded px-4 py-3 text-white focus:border-pink-500 focus:outline-none transition-all cyber-input"
                   placeholder="Enter actor name..."
                 />
               </div>
               
               <div className="space-y-2">
-                <label className="text-purple-400 text-sm">🎵 FAVORITE MUSICIAN</label>
+                <label className="text-purple-400 text-sm neon-glow">🎵 FAVORITE MUSICIAN</label>
                 <input
                   value={favMusic}
                   onChange={(e) => setFavMusic(e.target.value)}
-                  className="w-full bg-black border border-purple-500/50 rounded px-4 py-3 text-white focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full bg-black border border-purple-500/50 rounded px-4 py-3 text-white focus:border-purple-500 focus:outline-none transition-all cyber-input"
                   placeholder="Enter musician name..."
                 />
               </div>
               
               <div className="space-y-2">
-                <label className="text-orange-400 text-sm">🍽 FAVORITE CUISINE</label>
+                <label className="text-orange-400 text-sm neon-glow">🍽 FAVORITE CUISINE</label>
                 <input
                   value={favCuisine}
                   onChange={(e) => setFavCuisine(e.target.value)}
-                  className="w-full bg-black border border-orange-500/50 rounded px-4 py-3 text-white focus:border-orange-500 focus:outline-none transition-colors"
+                  className="w-full bg-black border border-orange-500/50 rounded px-4 py-3 text-white focus:border-orange-500 focus:outline-none transition-all cyber-input"
                   placeholder="Enter cuisine type..."
                 />
               </div>
               
               <div className="space-y-2">
-                <label className="text-cyan-400 text-sm">🌆 FAVORITE CITY</label>
+                <label className="text-cyan-400 text-sm neon-glow">🌆 FAVORITE CITY</label>
                 <input
                   value={favCity}
                   onChange={(e) => setFavCity(e.target.value)}
-                  className="w-full bg-black border border-cyan-500/50 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
+                  className="w-full bg-black border border-cyan-500/50 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-all cyber-input"
                   placeholder="Enter city name..."
                 />
               </div>
@@ -177,15 +198,15 @@ export default function App() {
                 whileTap={{ scale: 0.95 }}
                 onClick={handleGenerateDNA}
                 disabled={loading}
-                className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg shadow-pink-500/25 disabled:opacity-50"
+                className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg shadow-pink-500/25 disabled:opacity-50 btn-cyber"
               >
-                {loading ? "🔬 ANALYZING..." : "🔬 GENERATE DNA SEQUENCE"}
+                {loading ? "🔬 ANALYZING NEURAL PATTERNS..." : "🔬 GENERATE DNA SEQUENCE"}
               </motion.button>
             </div>
           </div>
         </motion.div>
 
-        {/* DNA Visualization */}
+        {/* DNA Visualization - Horizontal */}
         {userDNA.length > 0 && (
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
@@ -193,53 +214,64 @@ export default function App() {
             className="mb-12"
           >
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
-                🧬 YOUR CULTURAL DNA HELIX
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent neon-glow">
+                🧬 CULTURAL DNA HELIX
               </h2>
-              <div className="text-gray-400">Interactive 3D visualization of your cultural preferences</div>
+              <div className="text-gray-400">Interactive 3D visualization of your cultural genome</div>
             </div>
             
-            <div className="bg-gray-900/50 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <div className="bg-gray-900/50 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm cyber-panel">
               <DNAStrandVisualizer
                 nodes={getAllNodes()}
                 onNodeClick={setSelectedNode}
+                horizontal={true}
               />
             </div>
           </motion.div>
         )}
 
-        {/* Content Carousels */}
-        {Object.keys(allInsights).length > 0 && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-8"
-          >
-            {Object.entries(allInsights).map(([type, insights]) => {
-              if (insights.length === 0) return null;
-              
-              const category = type.split(':').pop() || 'content';
-              const categoryConfig = {
-                person: { icon: '👤', title: 'CULTURAL INFLUENCERS', color: 'purple' },
-                movie: { icon: '🎬', title: 'RECOMMENDED FILMS', color: 'green' },
-                music: { icon: '🎵', title: 'SONIC RECOMMENDATIONS', color: 'pink' },
-                brand: { icon: '🏢', title: 'BRAND AFFINITY', color: 'orange' },
-                place: { icon: '🌍', title: 'DESTINATION MATRIX', color: 'cyan' }
-              };
-              
-              const config = categoryConfig[category as keyof typeof categoryConfig] || categoryConfig.person;
-              
-              return (
-                <ContentCarousel
-                  key={type}
-                  title={`${config.icon} ${config.title}`}
-                  items={insights}
-                  color={config.color}
-                  category={category}
-                />
-              );
-            })}
-          </motion.div>
+        {/* Personality Profile */}
+        {personalityProfile && (
+          <PersonalityProfile profile={personalityProfile} />
+        )}
+
+        {/* Music Preview Carousel */}
+        {allInsights["urn:entity:music"] && allInsights["urn:entity:music"].length > 0 && (
+          <MusicPreviewCarousel 
+            title="🎵 SONIC DNA MATCHES"
+            items={allInsights["urn:entity:music"]}
+          />
+        )}
+
+        {/* Image Carousels */}
+        {Object.entries(allInsights).map(([type, insights]) => {
+          if (insights.length === 0) return null;
+          
+          const category = type.split(':').pop() || 'content';
+          const categoryConfig = {
+            person: { icon: '👤', title: 'CULTURAL INFLUENCERS', color: 'purple' },
+            movie: { icon: '🎬', title: 'CINEMATIC RECOMMENDATIONS', color: 'green' },
+            brand: { icon: '🏢', title: 'BRAND AFFINITY MATRIX', color: 'orange' },
+            place: { icon: '🌍', title: 'DESTINATION GENOME', color: 'cyan' }
+          };
+          
+          const config = categoryConfig[category as keyof typeof categoryConfig];
+          if (!config || category === 'music') return null; // Music handled separately
+          
+          return (
+            <ImageCarousel
+              key={type}
+              title={`${config.icon} ${config.title}`}
+              items={insights}
+              color={config.color}
+              category={category}
+            />
+          );
+        })}
+
+        {/* Trending Section */}
+        {Object.keys(trendingContent).length > 0 && (
+          <TrendingSection content={trendingContent} />
         )}
 
         {/* DNA Export */}
@@ -253,7 +285,8 @@ export default function App() {
               dnaData={{
                 inputs: { favActor, favMusic, favCuisine, favCity },
                 results,
-                insights: allInsights
+                insights: allInsights,
+                personality: personalityProfile
               }}
             />
           </motion.div>
@@ -264,33 +297,39 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
             onClick={() => setSelectedNode(null)}
           >
             <motion.div 
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              className="bg-gray-900 border border-cyan-500 rounded-lg p-6 max-w-md w-full"
+              initial={{ scale: 0.8, rotateY: -90 }}
+              animate={{ scale: 1, rotateY: 0 }}
+              className="bg-gray-900 border border-cyan-500 rounded-lg p-6 max-w-md w-full cyber-panel"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">
-                <h3 className="text-2xl font-bold mb-2" style={{ color: selectedNode.color }}>
+                <h3 className="text-2xl font-bold mb-2 neon-glow" style={{ color: selectedNode.color }}>
                   {selectedNode.name}
                 </h3>
                 <div className="text-gray-400 mb-4">{selectedNode.category?.toUpperCase()}</div>
                 {selectedNode.affinity_score && (
                   <div className="mb-4">
-                    <div className="text-sm text-gray-400 mb-1">AFFINITY SCORE</div>
-                    <div className="text-xl font-bold text-cyan-400">
+                    <div className="text-sm text-gray-400 mb-1">NEURAL AFFINITY</div>
+                    <div className="text-xl font-bold text-cyan-400 neon-glow">
                       {(selectedNode.affinity_score * 100).toFixed(1)}%
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                      <div 
+                        className="bg-gradient-to-r from-pink-500 to-cyan-500 h-2 rounded-full transition-all duration-1000"
+                        style={{ width: `${selectedNode.affinity_score * 100}%` }}
+                      />
                     </div>
                   </div>
                 )}
                 <button
                   onClick={() => setSelectedNode(null)}
-                  className="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded transition-colors"
+                  className="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded transition-colors btn-cyber"
                 >
-                  CLOSE
+                  CLOSE NEURAL LINK
                 </button>
               </div>
             </motion.div>

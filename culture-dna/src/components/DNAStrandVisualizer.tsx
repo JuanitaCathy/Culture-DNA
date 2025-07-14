@@ -13,6 +13,7 @@ type Node = {
 type Props = {
   nodes: Node[];
   onNodeClick?: (node: Node) => void;
+  horizontal?: boolean;
 };
 
 function DNANode({ 
@@ -90,7 +91,7 @@ function DNANode({
   );
 }
 
-function HelixStructure({ nodes, onNodeClick }: Props) {
+function HelixStructure({ nodes, onNodeClick, horizontal = false }: Props) {
   const groupRef = useRef<THREE.Group>(null);
   const { camera } = useThree();
 
@@ -103,26 +104,30 @@ function HelixStructure({ nodes, onNodeClick }: Props) {
     }> = [];
     
     const radius = 3;
-    const height = 20;
+    const height = horizontal ? 30 : 20;
     const turns = 3;
     const segments = Math.max(nodes.length, 20);
 
     // Create double helix
     for (let i = 0; i < segments; i++) {
       const angle = (i / segments) * turns * Math.PI * 2;
-      const y = (i / segments) * height - height / 2;
+      const pos = horizontal ? 
+        [(i / segments) * height - height / 2, 0, 0] : 
+        [0, (i / segments) * height - height / 2, 0];
       
       // First strand
-      const x1 = radius * Math.cos(angle);
-      const z1 = radius * Math.sin(angle);
+      const x1 = horizontal ? pos[0] : radius * Math.cos(angle);
+      const y1 = horizontal ? radius * Math.cos(angle) : pos[1];
+      const z1 = horizontal ? radius * Math.sin(angle) : radius * Math.sin(angle);
       
       // Second strand (offset by π)
-      const x2 = radius * Math.cos(angle + Math.PI);
-      const z2 = radius * Math.sin(angle + Math.PI);
+      const x2 = horizontal ? pos[0] : radius * Math.cos(angle + Math.PI);
+      const y2 = horizontal ? radius * Math.cos(angle + Math.PI) : pos[1];
+      const z2 = horizontal ? radius * Math.sin(angle + Math.PI) : radius * Math.sin(angle + Math.PI);
       
       if (nodes[i]) {
         points.push({
-          position: [x1, y, z1],
+          position: [x1, y1, z1],
           color: nodes[i].color,
           name: nodes[i].name,
           node: nodes[i]
@@ -131,7 +136,7 @@ function HelixStructure({ nodes, onNodeClick }: Props) {
       
       if (nodes[i + segments / 2]) {
         points.push({
-          position: [x2, y, z2],
+          position: [x2, y2, z2],
           color: nodes[i + segments / 2].color,
           name: nodes[i + segments / 2].name,
           node: nodes[i + segments / 2]
@@ -140,36 +145,44 @@ function HelixStructure({ nodes, onNodeClick }: Props) {
     }
     
     return points;
-  }, [nodes]);
+  }, [nodes, horizontal]);
 
   // Create connecting lines between strands
   const connections = useMemo(() => {
     const lines: Array<[number, number, number][]> = [];
     const radius = 3;
-    const height = 20;
+    const height = horizontal ? 30 : 20;
     const turns = 3;
     const segments = 50;
 
     for (let i = 0; i < segments; i++) {
       const angle = (i / segments) * turns * Math.PI * 2;
-      const y = (i / segments) * height - height / 2;
+      const pos = horizontal ? 
+        [(i / segments) * height - height / 2, 0, 0] : 
+        [0, (i / segments) * height - height / 2, 0];
       
-      const x1 = radius * Math.cos(angle);
-      const z1 = radius * Math.sin(angle);
-      const x2 = radius * Math.cos(angle + Math.PI);
-      const z2 = radius * Math.sin(angle + Math.PI);
+      const x1 = horizontal ? pos[0] : radius * Math.cos(angle);
+      const y1 = horizontal ? radius * Math.cos(angle) : pos[1];
+      const z1 = horizontal ? radius * Math.sin(angle) : radius * Math.sin(angle);
+      const x2 = horizontal ? pos[0] : radius * Math.cos(angle + Math.PI);
+      const y2 = horizontal ? radius * Math.cos(angle + Math.PI) : pos[1];
+      const z2 = horizontal ? radius * Math.sin(angle + Math.PI) : radius * Math.sin(angle + Math.PI);
       
       if (i % 3 === 0) { // Every 3rd connection
-        lines.push([[x1, y, z1], [x2, y, z2]]);
+        lines.push([[x1, y1, z1], [x2, y2, z2]]);
       }
     }
     
     return lines;
-  }, []);
+  }, [horizontal]);
 
   useFrame(() => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += 0.005;
+      if (horizontal) {
+        groupRef.current.rotation.z += 0.005;
+      } else {
+        groupRef.current.rotation.y += 0.005;
+      }
     }
   });
 
@@ -211,11 +224,14 @@ function HelixStructure({ nodes, onNodeClick }: Props) {
   );
 }
 
-export default function DNAStrandVisualizer({ nodes, onNodeClick }: Props) {
+export default function DNAStrandVisualizer({ nodes, onNodeClick, horizontal = false }: Props) {
   return (
-    <div className="w-full h-[600px] relative">
+    <div className={`w-full ${horizontal ? 'h-[400px]' : 'h-[600px]'} relative`}>
       <Canvas
-        camera={{ position: [0, 0, 15], fov: 60 }}
+        camera={{ 
+          position: horizontal ? [0, 0, 20] : [0, 0, 15], 
+          fov: 60 
+        }}
         style={{ background: 'radial-gradient(circle, #001122 0%, #000000 100%)' }}
       >
         <ambientLight intensity={0.3} />
@@ -223,13 +239,13 @@ export default function DNAStrandVisualizer({ nodes, onNodeClick }: Props) {
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ff0080" />
         <spotLight position={[0, 20, 0]} intensity={0.5} color="#0080ff" />
         
-        <HelixStructure nodes={nodes} onNodeClick={onNodeClick} />
+        <HelixStructure nodes={nodes} onNodeClick={onNodeClick} horizontal={horizontal} />
       </Canvas>
       
       {/* Controls overlay */}
       <div className="absolute bottom-4 left-4 text-xs text-gray-400 space-y-1">
         <div>🖱️ Click nodes for details</div>
-        <div>🔄 Auto-rotating helix</div>
+        <div>🔄 {horizontal ? 'Horizontal' : 'Vertical'} helix</div>
         <div>✨ Hover for labels</div>
       </div>
     </div>

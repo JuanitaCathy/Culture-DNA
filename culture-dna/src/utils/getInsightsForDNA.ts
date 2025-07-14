@@ -19,6 +19,12 @@ export async function getInsightsForDNA(
 
   // Optional: include affinity scores
   url.searchParams.append("include.affinity_score", "true");
+  
+  // Include image URLs if available
+  url.searchParams.append("include.image_url", "true");
+  
+  // Include additional metadata
+  url.searchParams.append("include.metadata", "true");
 
   // De-duplicate and attach interests
   const uniqueIds = Array.from(new Set(entityIds));
@@ -51,6 +57,10 @@ export async function getInsightsForDNA(
       name: item.name || "Unnamed",
       type: item.type,
       affinity_score: item.affinity_score ?? null,
+      image_url: item.image_url || null,
+      spotify_id: item.spotify_id || null,
+      preview_url: item.preview_url || null,
+      metadata: item.metadata || {}
     }))
     .sort((a: { affinity_score: any; }, b: { affinity_score: any; }) => (b.affinity_score ?? 0) - (a.affinity_score ?? 0)) // highest score first
     .slice(0, maxResults); // limit to max results
