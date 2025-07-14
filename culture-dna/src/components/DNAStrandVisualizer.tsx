@@ -108,19 +108,16 @@ function HelixStructure({ nodes, onNodeClick, horizontal = false }: Props) {
     const turns = 3;
     const segments = Math.max(nodes.length, 20);
 
-    // Create double helix
     for (let i = 0; i < segments; i++) {
       const angle = (i / segments) * turns * Math.PI * 2;
       const pos = horizontal ? 
         [(i / segments) * height - height / 2, 0, 0] : 
         [0, (i / segments) * height - height / 2, 0];
       
-      // First strand
       const x1 = horizontal ? pos[0] : radius * Math.cos(angle);
       const y1 = horizontal ? radius * Math.cos(angle) : pos[1];
       const z1 = horizontal ? radius * Math.sin(angle) : radius * Math.sin(angle);
       
-      // Second strand (offset by π)
       const x2 = horizontal ? pos[0] : radius * Math.cos(angle + Math.PI);
       const y2 = horizontal ? radius * Math.cos(angle + Math.PI) : pos[1];
       const z2 = horizontal ? radius * Math.sin(angle + Math.PI) : radius * Math.sin(angle + Math.PI);
@@ -206,9 +203,7 @@ function HelixStructure({ nodes, onNodeClick, horizontal = false }: Props) {
           <bufferGeometry>
             <bufferAttribute
               attach="attributes-position"
-              count={2}
-              array={new Float32Array([...line[0], ...line[1]])}
-              itemSize={3}
+            args={[new Float32Array([...line[0], ...line[1]]), 3]}
             />
           </bufferGeometry>
           <lineBasicMaterial color="#00ff80" opacity={0.3} transparent />

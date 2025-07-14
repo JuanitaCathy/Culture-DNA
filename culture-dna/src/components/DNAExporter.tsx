@@ -12,6 +12,7 @@ type Props = {
     };
     results: any[];
     insights: { [key: string]: any[] };
+    personality?: any;
   };
 };
 

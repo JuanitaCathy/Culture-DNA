@@ -50,7 +50,6 @@ export default function App() {
       setUserDNA(entityIds);
       setResults(foundResults);
       
-      // Fetch insights for all types with images
       const insightTypes = ["urn:entity:person", "urn:entity:movie", "urn:entity:brand", "urn:entity:place"];
       const insights: {[key: string]: any[]} = {};
       
@@ -155,7 +154,7 @@ export default function App() {
                 <label className="text-pink-400 text-sm neon-glow">🎭 FAVORITE ACTOR</label>
                 <input
                   value={favActor}
-                  onChange={(e) => setFavActor(e.target.value)}
+                  onChange={(e: { target: { value: any; }; }) => setFavActor(e.target.value)}
                   className="w-full bg-black border border-pink-500/50 rounded px-4 py-3 text-white focus:border-pink-500 focus:outline-none transition-all cyber-input"
                   placeholder="Enter actor name..."
                 />

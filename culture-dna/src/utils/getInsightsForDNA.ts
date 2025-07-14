@@ -1,4 +1,3 @@
-// utils/getInsightsForDNA.ts
 const API_KEY = "1Ql3AjhegWKNJK_6Ruh5d9dl4-z5bnoP1s33foFmqHE";
 
 /**
