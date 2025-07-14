@@ -51,7 +51,7 @@ export default function App() {
       setResults(foundResults);
       
       // Fetch insights for all types with images
-      const insightTypes = ["urn:entity:person", "urn:entity:movie", "urn:entity:music", "urn:entity:brand", "urn:entity:place"];
+      const insightTypes = ["urn:entity:person", "urn:entity:movie", "urn:entity:brand", "urn:entity:place"];
       const insights: {[key: string]: any[]} = {};
       
       for (const type of insightTypes) {
