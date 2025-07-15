@@ -41,22 +41,22 @@ export default function PersonalityProfile({ profile }: Props) {
       animate={{ opacity: 1, y: 0 }}
       className="mb-12"
     >
-      <div className="border border-purple-500/30 rounded-lg bg-purple-900/20 backdrop-blur-sm p-8 cyber-panel">
+      <div className="synthwave-card rounded-2xl p-8 neon-border">
         <div className="text-center mb-8">
-          <h3 className="text-4xl font-bold mb-4 text-purple-400 neon-glow">
+          <h3 className="text-4xl font-['Orbitron'] font-bold mb-4 text-pink-400 synthwave-glow">
             🧠 NEURAL PERSONALITY MATRIX
           </h3>
-          <div className="text-gray-400">AI-generated cultural personality analysis</div>
+          <div className="text-pink-400/80 text-lg">AI-generated cultural personality analysis</div>
         </div>
 
         {/* Cultural Archetype */}
         <div className="text-center mb-8">
-          <div className="inline-block bg-black/50 border border-purple-500/50 rounded-lg p-6">
+          <div className="inline-block synthwave-card rounded-xl p-6 neon-border">
             <div className="text-6xl mb-2">{getArchetypeIcon(profile.cultural_archetype)}</div>
-            <h4 className="text-2xl font-bold text-purple-400 mb-2">
+            <h4 className="text-2xl font-['Orbitron'] font-bold text-pink-400 mb-2 synthwave-glow">
               {profile.cultural_archetype.toUpperCase()}
             </h4>
-            <p className="text-gray-300 max-w-md">
+            <p className="text-pink-300/80 max-w-md">
               {profile.summary}
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function PersonalityProfile({ profile }: Props) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-black/50 border border-gray-700 rounded-lg p-4 hover:border-purple-500/50 transition-all duration-300"
+              className="synthwave-card rounded-xl p-4 transition-all duration-300"
             >
               <div className="flex items-center justify-between mb-3">
                 <h5 className="text-white font-semibold">{trait.name}</h5>
@@ -80,22 +80,17 @@ export default function PersonalityProfile({ profile }: Props) {
               </div>
               
               <div className="mb-3">
-                <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="synthwave-progress rounded-full h-2">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${trait.score * 100}%` }}
                     transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
-                    className={`h-2 rounded-full bg-gradient-to-r ${
-                      trait.score >= 0.8 ? 'from-green-500 to-green-600' :
-                      trait.score >= 0.6 ? 'from-yellow-500 to-yellow-600' :
-                      trait.score >= 0.4 ? 'from-orange-500 to-orange-600' :
-                      'from-red-500 to-red-600'
-                    }`}
+                    className="synthwave-progress-fill h-2 rounded-full"
                   />
                 </div>
               </div>
               
-              <p className="text-gray-400 text-sm">
+              <p className="text-pink-400/70 text-sm">
                 {trait.description}
               </p>
             </motion.div>

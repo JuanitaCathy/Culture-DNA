@@ -41,18 +41,18 @@ export default function TrendingSection({ content }: Props) {
       animate={{ opacity: 1, y: 0 }}
       className="mb-12"
     >
-      <div className="border border-red-500/30 rounded-lg bg-red-900/20 backdrop-blur-sm p-8 cyber-panel">
+      <div className="synthwave-card rounded-2xl p-8 neon-border">
         <div className="text-center mb-8">
-          <h3 className="text-4xl font-bold mb-4 text-red-400 neon-glow">
+          <h3 className="text-4xl font-['Orbitron'] font-bold mb-4 text-pink-400 synthwave-glow">
             🔥 CULTURAL TREND MATRIX
           </h3>
-          <div className="text-gray-400">Real-time cultural zeitgeist analysis</div>
+          <div className="text-pink-400/80 text-lg">Real-time cultural zeitgeist analysis</div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Trending Now */}
           <div>
-            <h4 className="text-2xl font-bold text-red-400 mb-6 text-center">
+            <h4 className="text-2xl font-['Orbitron'] font-bold text-pink-400 mb-6 text-center synthwave-glow">
               🚀 TRENDING NOW
             </h4>
             <div className="space-y-4">
@@ -62,26 +62,26 @@ export default function TrendingSection({ content }: Props) {
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-black/50 border border-gray-700 rounded-lg p-4 hover:border-red-500/50 transition-all duration-300 group"
+                  className="synthwave-card rounded-xl p-4 transition-all duration-300 group"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="text-2xl">{getTrendIcon(item.type)}</div>
                     <div className="flex-1">
-                      <h5 className="text-white font-semibold group-hover:text-red-400 transition-colors">
+                      <h5 className="text-white font-semibold group-hover:text-pink-400 transition-colors">
                         {item.name}
                       </h5>
                       <div className="flex items-center space-x-2 mt-1">
-                        <span className="text-xs text-gray-400">TREND SCORE:</span>
-                        <span className="text-xs font-bold text-red-400">
+                        <span className="text-xs text-pink-400/60">TREND SCORE:</span>
+                        <span className="text-xs font-bold text-pink-400">
                           {(item.trend_score * 100).toFixed(0)}%
                         </span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-1 mt-2">
+                      <div className="synthwave-progress rounded-full h-1 mt-2">
                         <motion.div 
                           initial={{ width: 0 }}
                           animate={{ width: `${item.trend_score * 100}%` }}
                           transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
-                          className={`h-1 rounded-full bg-gradient-to-r ${getTrendColor(item.trend_score)}`}
+                          className="synthwave-progress-fill h-1 rounded-full"
                         />
                       </div>
                     </div>
@@ -93,7 +93,7 @@ export default function TrendingSection({ content }: Props) {
 
           {/* Rising Stars */}
           <div>
-            <h4 className="text-2xl font-bold text-yellow-400 mb-6 text-center">
+            <h4 className="text-2xl font-['Orbitron'] font-bold text-yellow-400 mb-6 text-center synthwave-glow">
               ⭐ RISING STARS
             </h4>
             <div className="space-y-4">
@@ -103,7 +103,7 @@ export default function TrendingSection({ content }: Props) {
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-black/50 border border-gray-700 rounded-lg p-4 hover:border-yellow-500/50 transition-all duration-300 group"
+                  className="synthwave-card rounded-xl p-4 transition-all duration-300 group"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="text-2xl">{getTrendIcon(item.type)}</div>
@@ -112,17 +112,17 @@ export default function TrendingSection({ content }: Props) {
                         {item.name}
                       </h5>
                       <div className="flex items-center space-x-2 mt-1">
-                        <span className="text-xs text-gray-400">GROWTH RATE:</span>
+                        <span className="text-xs text-pink-400/60">GROWTH RATE:</span>
                         <span className="text-xs font-bold text-yellow-400">
                           +{(item.growth_rate * 100).toFixed(0)}%
                         </span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-1 mt-2">
+                      <div className="synthwave-progress rounded-full h-1 mt-2">
                         <motion.div 
                           initial={{ width: 0 }}
                           animate={{ width: `${Math.min(item.growth_rate * 100, 100)}%` }}
                           transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
-                          className="h-1 rounded-full bg-gradient-to-r from-yellow-500 to-green-500"
+                          className="synthwave-progress-fill h-1 rounded-full"
                         />
                       </div>
                     </div>

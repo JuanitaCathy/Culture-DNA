@@ -221,26 +221,26 @@ function HelixStructure({ nodes, onNodeClick, horizontal = false }: Props) {
 
 export default function DNAStrandVisualizer({ nodes, onNodeClick, horizontal = false }: Props) {
   return (
-    <div className={`w-full ${horizontal ? 'h-[400px]' : 'h-[600px]'} relative`}>
+    <div className={`w-full ${horizontal ? 'h-[500px]' : 'h-[600px]'} relative`}>
       <Canvas
         camera={{ 
-          position: horizontal ? [0, 0, 20] : [0, 0, 15], 
+          position: horizontal ? [0, 0, 25] : [0, 0, 15], 
           fov: 60 
         }}
-        style={{ background: 'radial-gradient(circle, #001122 0%, #000000 100%)' }}
+        style={{ background: 'radial-gradient(circle, #1a0033 0%, #0f0f23 100%)' }}
       >
         <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={0.8} color="#00ff80" />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ff0080" />
-        <spotLight position={[0, 20, 0]} intensity={0.5} color="#0080ff" />
+        <pointLight position={[10, 10, 10]} intensity={0.8} color="#ff6b9d" />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#c44569" />
+        <spotLight position={[0, 20, 0]} intensity={0.5} color="#ff9ff3" />
         
         <HelixStructure nodes={nodes} onNodeClick={onNodeClick} horizontal={horizontal} />
       </Canvas>
       
       {/* Controls overlay */}
-      <div className="absolute bottom-4 left-4 text-xs text-gray-400 space-y-1">
+      <div className="absolute bottom-4 left-4 text-xs text-pink-400/60 space-y-1">
         <div>🖱️ Click nodes for details</div>
-        <div>🔄 {horizontal ? 'Horizontal' : 'Vertical'} helix</div>
+        <div>🔄 Synthwave DNA helix</div>
         <div>✨ Hover for labels</div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -10,99 +10,275 @@
 
 body {
   margin: 0;
-  font-family: 'JetBrains Mono', monospace;
-  background: #000000;
-  color: #00ff80;
+  font-family: 'Rajdhani', sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a0033 25%, #2d1b69 50%, #0f0f23 75%, #000000 100%);
+  color: #ff6b9d;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* Custom scrollbar */
+/* Synthwave scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #111;
+  background: linear-gradient(180deg, #1a0033, #0f0f23);
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00ff80;
-  border-radius: 4px;
+  background: linear-gradient(180deg, #ff6b9d, #c44569);
+  border-radius: 6px;
+  border: 2px solid #1a0033;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00cc66;
+  background: linear-gradient(180deg, #ff9ff3, #ff6b9d);
 }
 
-/* Glitch effect for headings */
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
+/* Synthwave glow effects */
+@keyframes synthwave-glow {
+  0%, 100% { 
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor,
+      0 0 20px #ff6b9d,
+      0 0 35px #ff6b9d;
+  }
+  50% { 
+    text-shadow: 
+      0 0 2px currentColor,
+      0 0 5px currentColor,
+      0 0 8px currentColor,
+      0 0 12px #ff6b9d,
+      0 0 18px #ff6b9d;
+  }
 }
 
-.glitch:hover {
-  animation: glitch 0.3s;
+.synthwave-glow {
+  animation: synthwave-glow 2s ease-in-out infinite;
 }
 
-/* Neon glow effect */
-.neon-glow {
-  text-shadow: 
-    0 0 5px currentColor,
-    0 0 10px currentColor,
-    0 0 15px currentColor,
-    0 0 20px currentColor;
+/* Retro grid background */
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(40px, 40px); }
 }
 
-/* Scan line animation */
-@keyframes scan {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+.retro-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 107, 157, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 107, 157, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-move 4s linear infinite;
+  z-index: -1;
 }
 
-.scan-line {
+/* Synthwave horizon effect */
+.synthwave-horizon {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(
+    0deg,
+    #ff6b9d 0%,
+    #c44569 20%,
+    rgba(255, 107, 157, 0.3) 40%,
+    transparent 100%
+  );
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Neon border animations */
+@keyframes neon-border {
+  0%, 100% { 
+    box-shadow: 
+      0 0 5px #ff6b9d,
+      0 0 10px #ff6b9d,
+      0 0 15px #ff6b9d,
+      inset 0 0 5px rgba(255, 107, 157, 0.1);
+  }
+  50% { 
+    box-shadow: 
+      0 0 10px #ff6b9d,
+      0 0 20px #ff6b9d,
+      0 0 30px #ff6b9d,
+      inset 0 0 10px rgba(255, 107, 157, 0.2);
+  }
+}
+
+.neon-border {
+  animation: neon-border 2s ease-in-out infinite;
+}
+
+/* Synthwave button effects */
+.synthwave-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  border: 2px solid #ff6b9d;
+  transition: all 0.3s ease;
+}
+
+.synthwave-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.synthwave-btn:hover::before {
+  left: 100%;
+}
+
+.synthwave-btn:hover {
+  box-shadow: 0 0 20px #ff6b9d;
+  transform: translateY(-2px);
+}
+
+/* Synthwave input styling */
+.synthwave-input {
+  background: rgba(15, 15, 35, 0.8);
+  border: 2px solid #ff6b9d;
+  color: #ff6b9d;
+  transition: all 0.3s ease;
+}
+
+.synthwave-input:focus {
+  box-shadow: 
+    0 0 0 3px rgba(255, 107, 157, 0.3),
+    0 0 10px #ff6b9d;
+  background: rgba(15, 15, 35, 0.9);
+  outline: none;
+}
+
+.synthwave-input::placeholder {
+  color: rgba(255, 107, 157, 0.6);
+}
+
+/* Synthwave card effects */
+.synthwave-card {
+  background: linear-gradient(135deg, rgba(15, 15, 35, 0.9), rgba(26, 0, 51, 0.8));
+  border: 1px solid rgba(255, 107, 157, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.synthwave-card:hover {
+  border-color: #ff6b9d;
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.3);
+  transform: translateY(-5px);
+}
+
+/* Retro wave animation */
+@keyframes retro-wave {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+
+.retro-wave {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  width: 100px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #00ff80, transparent);
-  animation: scan 3s linear infinite;
+  background: linear-gradient(90deg, transparent, #ff6b9d, #c44569, transparent);
+  animation: retro-wave 3s linear infinite;
   z-index: 1000;
-  pointer-events: none;
 }
 
-/* Matrix rain effect */
-@keyframes matrix-rain {
-  0% { transform: translateY(-100%); opacity: 1; }
-  100% { transform: translateY(100vh); opacity: 0; }
+/* Synthwave carousel styling */
+.synthwave-carousel {
+  scrollbar-width: thin;
+  scrollbar-color: #ff6b9d rgba(15, 15, 35, 0.5);
 }
 
-/* Matrix grid background */
-.matrix-grid {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(rgba(0,255,128,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,128,0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: matrix-scroll 20s linear infinite;
+.synthwave-carousel::-webkit-scrollbar {
+  height: 8px;
 }
 
-@keyframes matrix-scroll {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
+.synthwave-carousel::-webkit-scrollbar-track {
+  background: rgba(15, 15, 35, 0.5);
+  border-radius: 4px;
 }
 
-.matrix-char {
-  position: absolute;
-  color: #00ff80;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  animation: matrix-rain 2s linear infinite;
+.synthwave-carousel::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #ff6b9d, #c44569);
+  border-radius: 4px;
+}
+
+/* Floating animation for DNA nodes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse animation for active elements */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.pulse-animation {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Synthwave modal styling */
+.synthwave-modal {
+  background: linear-gradient(135deg, rgba(15, 15, 35, 0.95), rgba(26, 0, 51, 0.9));
+  border: 2px solid #ff6b9d;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 0 50px rgba(255, 107, 157, 0.5),
+    inset 0 0 20px rgba(255, 107, 157, 0.1);
+}
+
+/* Gradient text effects */
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b9d, #c44569, #ff9ff3);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Synthwave progress bars */
+.synthwave-progress {
+  background: rgba(15, 15, 35, 0.8);
+  border: 1px solid rgba(255, 107, 157, 0.3);
+  overflow: hidden;
+}
+
+.synthwave-progress-fill {
+  background: linear-gradient(90deg, #ff6b9d, #c44569, #ff9ff3);
+  background-size: 200% 100%;
+  animation: progress-flow 2s linear infinite;
+}
+
+@keyframes progress-flow {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 /* Utility classes */
@@ -113,77 +289,34 @@ body {
   overflow: hidden;
 }
 
-/* Button hover effects */
-.btn-cyber {
-  position: relative;
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.btn-cyber::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+/* Responsive design helpers */
+@media (max-width: 768px) {
+  .retro-grid {
+    background-size: 20px 20px;
+  }
+  
+  .synthwave-glow {
+    animation: none;
+    text-shadow: 0 0 10px currentColor;
+  }
 }
 
-.btn-cyber:hover::before {
-  left: 100%;
+/* Loading spinner */
+@keyframes synthwave-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Cyber panel effects */
-.cyber-panel {
-  position: relative;
-}
-
-.cyber-panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #00ff80, transparent);
-  animation: scan-line 2s ease-in-out infinite;
-}
-
-@keyframes scan-line {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
-/* Input focus effects */
-.cyber-input:focus {
-  box-shadow: 0 0 0 2px currentColor, 0 0 10px currentColor;
-  background: rgba(0, 255, 128, 0.05);
-}
-
-/* Card hover effects */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 255, 128, 0.2);
-}
-
-/* Custom scrollbar for carousels */
-.scrollbar-thin {
-  scrollbar-width: thin;
-}
-
-.scrollbar-thumb-cyan-500::-webkit-scrollbar-thumb {
-  background-color: #06b6d4;
-}
-
-.scrollbar-thumb-pink-500::-webkit-scrollbar-thumb {
-  background-color: #ec4899;
-}
-
-.scrollbar-track-gray-800::-webkit-scrollbar-track {
-  background-color: #1f2937;
+.synthwave-spinner {
+  border: 3px solid rgba(255, 107, 157, 0.3);
+  border-top: 3px solid #ff6b9d;
+  border-radius: 50%;
+  animation: synthwave-spin 1s linear infinite;
 }

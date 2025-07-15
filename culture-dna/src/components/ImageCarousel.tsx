@@ -16,28 +16,28 @@ type Props = {
 
 const colorMap = {
   purple: {
+    border: 'border-pink-500/30',
+    bg: 'bg-pink-900/20',
+    text: 'text-pink-400',
+    gradient: 'from-pink-600 to-pink-800'
+  },
+  pink: {
+    border: 'border-pink-500/30',
+    bg: 'bg-pink-900/20',
+    text: 'text-pink-400',
+    gradient: 'from-pink-600 to-pink-800'
+  },
+  orange: {
+    border: 'border-yellow-500/30',
+    bg: 'bg-yellow-900/20',
+    text: 'text-yellow-400',
+    gradient: 'from-yellow-600 to-yellow-800'
+  },
+  cyan: {
     border: 'border-purple-500/30',
     bg: 'bg-purple-900/20',
     text: 'text-purple-400',
     gradient: 'from-purple-600 to-purple-800'
-  },
-  green: {
-    border: 'border-green-500/30',
-    bg: 'bg-green-900/20',
-    text: 'text-green-400',
-    gradient: 'from-green-600 to-green-800'
-  },
-  orange: {
-    border: 'border-orange-500/30',
-    bg: 'bg-orange-900/20',
-    text: 'text-orange-400',
-    gradient: 'from-orange-600 to-orange-800'
-  },
-  cyan: {
-    border: 'border-cyan-500/30',
-    bg: 'bg-cyan-900/20',
-    text: 'text-cyan-400',
-    gradient: 'from-cyan-600 to-cyan-800'
   }
 };
 
@@ -66,12 +66,12 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
       animate={{ opacity: 1, y: 0 }}
       className="mb-12"
     >
-      <div className={`border ${colors.border} rounded-lg ${colors.bg} backdrop-blur-sm p-6 cyber-panel`}>
-        <h3 className={`text-3xl font-bold mb-6 ${colors.text} neon-glow text-center`}>
+      <div className={`synthwave-card rounded-2xl p-8 neon-border`}>
+        <h3 className={`text-4xl font-['Orbitron'] font-bold mb-8 ${colors.text} synthwave-glow text-center`}>
           {title}
         </h3>
         
-        <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-thin scrollbar-thumb-cyan-500 scrollbar-track-gray-800">
+        <div className="flex overflow-x-auto space-x-6 pb-4 synthwave-carousel">
           {items.slice(0, 10).map((item, index) => (
             <motion.div
               key={`${item.entity_id}-${index}`}
@@ -79,7 +79,7 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.05, y: -10 }}
-              className="flex-shrink-0 w-64 bg-black/70 border border-gray-700 rounded-lg overflow-hidden hover:border-gray-500 transition-all duration-300 cursor-pointer group card-hover"
+              className="flex-shrink-0 w-72 synthwave-card rounded-xl overflow-hidden transition-all duration-300 cursor-pointer group"
             >
               {/* Image */}
               <div className="relative h-48 overflow-hidden">
@@ -105,7 +105,7 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
               
               {/* Content */}
               <div className="p-4">
-                <h4 className="text-white font-semibold text-lg mb-2 truncate group-hover:text-cyan-400 transition-colors">
+                <h4 className="text-white font-semibold text-lg mb-2 truncate group-hover:text-pink-300 transition-colors">
                   {item.name}
                 </h4>
                 
@@ -130,7 +130,7 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
                 )}
                 
                 {/* Category Badge */}
-                <div className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${colors.bg} ${colors.text} border ${colors.border}`}>
+                <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${colors.bg} ${colors.text} border ${colors.border}`}>
                   {category.toUpperCase()}
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
         
         {items.length > 10 && (
           <div className="text-center mt-6">
-            <button className={`${colors.text} hover:text-white text-sm transition-colors btn-cyber`}>
+            <button className={`${colors.text} hover:text-white text-sm transition-colors synthwave-btn px-6 py-2 rounded-lg`}>
               LOAD MORE NEURAL CONNECTIONS ({items.length - 10} remaining) →
             </button>
           </div>
