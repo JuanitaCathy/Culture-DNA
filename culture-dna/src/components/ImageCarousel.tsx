@@ -107,8 +107,7 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
                   <div className="text-6xl opacity-50">
                     {category === 'person' ? '👤' : category === 'movie' ? '🎬' : category === 'brand' ? '🏢' : '🌍'}
                   </div>
-                  }}
-                />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 
                 {/* Affinity Score Overlay */}
