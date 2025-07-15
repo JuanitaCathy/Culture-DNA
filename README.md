@@ -79,8 +79,8 @@ Your cultural genome is waiting to be decoded. Your synthwave journey into the d
 
 *Built with 💜 and endless cups of coffee during late-night coding sessions, soundtracked by synthwave playlists and fueled by the dream of making cultural discovery beautiful again.*
 
-**Live Demo**: [Experience Your Cultural DNA](https://your-demo-link.com)  
-**GitHub**: [Explore the Code](https://github.com/your-repo)  
+**Live Demo**: [Experience Your Cultural DNA]()  
+**GitHub**: [Explore the Code](https://github.com/JuanitaCathy/Culture-DNA)  
 **Share Your DNA**: #CulturalDNA #SynthwaveVibes #TasteProfile
 
 ---
