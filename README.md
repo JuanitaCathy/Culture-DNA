@@ -1,8 +1,8 @@
-# 🧬 CULTURAL DNA: The Synthwave Taste Explorer
+# 🧬 CULTURE DNA: Digital Culture Fingerprint!
 
 *What if you could decode the very essence of your cultural soul? What if your favorite actor, musician, cuisine, and city weren't just preferences, but genetic markers of a deeper cultural identity waiting to be discovered?*
 
-Welcome to **Cultural DNA** – a retro-futuristic journey into the heart of your pop culture genome, wrapped in neon-soaked synthwave aesthetics that would make even the most discerning cyberpunk enthusiast weep tears of nostalgic joy.
+Welcome to **Culture DNA** – a retro-futuristic journey into the heart of your pop culture genome, wrapped in neon-soaked synthwave aesthetics that would make even the most discerning cyberpunk enthusiast weep tears of nostalgic joy.
 
 ## 🌟 The Story Behind the Code
 
@@ -13,7 +13,7 @@ In a world drowning in endless content recommendations and algorithmic noise, we
 ## ✨ The Magic Happens Here
 
 ### 🎭 **The Ritual**
-You begin by offering four sacred inputs to our neon altar:
+You begin by offering four sacred inputs to us:
 - Your **favorite actor** (the face that speaks to your cinematic soul)
 - Your **beloved musician** (the voice that soundtracks your existence)  
 - Your **cherished cuisine** (the flavors that define comfort)
@@ -52,7 +52,8 @@ Every DNA profile is designed to be shared. One-click export generates stunning 
 - **React 19** with **TypeScript** for bulletproof component architecture
 - **Three.js** for mind-bending 3D DNA visualizations
 - **Framer Motion** for buttery-smooth synthwave animations
-- **Qloo Taste API** for AI-powered cultural intelligence
+- **Qloo Taste API** for cultural intelligence
+- **Gemini API** for AI Summaries
 - **Tailwind CSS** with custom synthwave styling
 - **Vite** for lightning-fast development experience
 
