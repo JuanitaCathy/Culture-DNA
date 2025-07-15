@@ -59,7 +59,7 @@ export default function MusicPreviewCarousel({ title, items }: Props) {
         </h3>
         
         <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800">
-          {items.slice(0, 8).map((item, index) => (
+          {items.slice(0, 5).map((item, index) => (
             <motion.div
               key={`${item.entity_id}-${index}`}
               initial={{ opacity: 0, scale: 0.9, x: 50 }}
@@ -101,6 +101,26 @@ export default function MusicPreviewCarousel({ title, items }: Props) {
                           duration: 0.5,
                           repeat: Infinity,
                           delay: i * 0.1,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+                
+                {/* Static wave animation for non-playing items */}
+                {currentlyPlaying !== item.entity_id && (
+                  <div className="absolute bottom-2 left-2 flex space-x-1 opacity-30">
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="w-1 bg-pink-400 rounded-full"
+                        animate={{
+                          height: [2, 8, 2],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: i * 0.2,
                         }}
                       />
                     ))}
@@ -189,10 +209,10 @@ export default function MusicPreviewCarousel({ title, items }: Props) {
           ))}
         </div>
         
-        {items.length > 8 && (
+        {items.length > 5 && (
           <div className="text-center mt-6">
             <button className="text-pink-400 hover:text-white text-sm transition-colors btn-cyber">
-              DISCOVER MORE SONIC MATCHES ({items.length - 8} remaining) →
+              DISCOVER MORE SONIC MATCHES ({items.length - 5} remaining) →
             </button>
           </div>
         )}

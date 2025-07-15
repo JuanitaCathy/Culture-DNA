@@ -44,19 +44,30 @@ const colorMap = {
 export default function ImageCarousel({ title, items, color, category }: Props) {
   const colors = colorMap[color as keyof typeof colorMap] || colorMap.purple;
 
-  const getPlaceholderImage = (category: string, name: string) => {
-    const encodedName = encodeURIComponent(name);
+  const getCategorySpecificImage = (category: string, name: string) => {
+    // Return null if we can't get a good category-specific image
+    // This will show no image instead of generic ones
     switch (category) {
       case 'person':
-        return `https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
+        // For actors/people, we'll try to get portrait-style images
+        if (name.toLowerCase().includes('actor') || name.toLowerCase().includes('actress')) {
+          return `https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
+        }
+        return null; // No generic person images
       case 'movie':
+        // For movies, use cinema/theater images
         return `https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
       case 'brand':
-        return `https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
+        // For brands/cuisine, use food/restaurant images
+        if (name.toLowerCase().includes('cuisine') || name.toLowerCase().includes('food') || name.toLowerCase().includes('restaurant')) {
+          return `https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
+        }
+        return null; // No generic brand images
       case 'place':
+        // For cities/places, use cityscape images
         return `https://images.pexels.com/photos/2034335/pexels-photo-2034335.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
       default:
-        return `https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop`;
+        return null;
     }
   };
 
@@ -72,7 +83,7 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
         </h3>
         
         <div className="flex overflow-x-auto space-x-6 pb-4 synthwave-carousel">
-          {items.slice(0, 10).map((item, index) => (
+          {items.slice(0, 5).map((item, index) => (
             <motion.div
               key={`${item.entity_id}-${index}`}
               initial={{ opacity: 0, scale: 0.9, x: 50 }}
@@ -82,13 +93,20 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
               className="flex-shrink-0 w-72 synthwave-card rounded-xl overflow-hidden transition-all duration-300 cursor-pointer group"
             >
               {/* Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={item.image_url || getPlaceholderImage(category, item.name)}
-                  alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = getPlaceholderImage(category, item.name);
+              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-pink-900 to-purple-900 flex items-center justify-center">
+                {(item.image_url || getCategorySpecificImage(category, item.name)) ? (
+                  <img
+                    src={item.image_url || getCategorySpecificImage(category, item.name)!}
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <div className="text-6xl opacity-50">
+                    {category === 'person' ? '👤' : category === 'movie' ? '🎬' : category === 'brand' ? '🏢' : '🌍'}
+                  </div>
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -141,10 +159,10 @@ export default function ImageCarousel({ title, items, color, category }: Props) 
           ))}
         </div>
         
-        {items.length > 10 && (
+        {items.length > 5 && (
           <div className="text-center mt-6">
             <button className={`${colors.text} hover:text-white text-sm transition-colors synthwave-btn px-6 py-2 rounded-lg`}>
-              LOAD MORE NEURAL CONNECTIONS ({items.length - 10} remaining) →
+              DISCOVER MORE ({items.length - 5} remaining) →
             </button>
           </div>
         )}

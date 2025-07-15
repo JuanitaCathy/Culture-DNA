@@ -270,14 +270,25 @@ export default function App() {
               
               const category = type.split(':').pop() || 'content';
               const categoryConfig = {
-                person: { icon: '👤', title: 'CULTURAL INFLUENCERS', color: 'pink' },
-                movie: { icon: '🎬', title: 'CINEMATIC RECOMMENDATIONS', color: 'purple' },
-                brand: { icon: '🏢', title: 'BRAND AFFINITY MATRIX', color: 'orange' },
-                place: { icon: '🌍', title: 'DESTINATION GENOME', color: 'cyan' }
+                person: { icon: '👤', title: 'TOP 5 CULTURAL INFLUENCERS YOU\'D LOVE', color: 'pink' },
+                movie: { icon: '🎬', title: 'TOP 5 MOVIES RECOMMENDED FOR YOU', color: 'purple' },
+                brand: { icon: '🏢', title: 'TOP 5 BRANDS THAT MATCH YOUR VIBE', color: 'orange' },
+                place: { icon: '🌍', title: 'TOP 5 DESTINATIONS FOR YOUR SOUL', color: 'cyan' }
               };
               
               const config = categoryConfig[category as keyof typeof categoryConfig];
               if (!config) return null;
+              
+              // For music, use the special music preview carousel
+              if (category === 'music') {
+                return (
+                  <MusicPreviewCarousel
+                    key={type}
+                    title={`🎵 TOP 5 ARTISTS IN YOUR SONIC DNA`}
+                    items={insights}
+                  />
+                );
+              }
               
               return (
                 <ImageCarousel
